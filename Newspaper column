@@ -1,0 +1,33 @@
+function solution(paragraphs, aligns, width) {
+    const result = [];
+    const border = '*'.repeat(width + 2);
+    result.push(border);
+
+    for (let i = 0; i < paragraphs.length; i++) {
+        const words = paragraphs[i];
+        const align = aligns[i];
+        let currentLine = "";
+        const lines = [];
+
+        for (const word of words) {
+            if (currentLine.length + word.length + (currentLine.length > 0 ? 1 : 0) <= width) {
+                currentLine += (currentLine.length > 0 ? " " : "") + word;
+            } else {
+                lines.push(currentLine);
+                currentLine = word;
+            }
+        }
+        if (currentLine) lines.push(currentLine);
+
+        for (const line of lines) {
+            if (align === "LEFT") {
+                result.push(`*${line.padEnd(width)}*`);
+            } else if (align === "RIGHT") {
+                result.push(`*${line.padStart(width)}*`);
+            }
+        }
+    }
+
+    result.push(border);
+    return result;
+}
